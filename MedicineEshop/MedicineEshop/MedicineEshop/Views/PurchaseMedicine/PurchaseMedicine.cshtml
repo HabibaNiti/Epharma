@@ -1,0 +1,404 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "PurchaseMedicine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Purchase Medicine
+                </div>
+
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="caption font-green-sharp">
+                                                <i class="icon-speech font-green-sharp"></i>
+                                                <span class="caption-subject bold uppercase" style="font-weight:bold; font-size:16px;"> Product Medicine Details</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-7">
+                                                        <a class="btn btn-warning selectMedicine" data-toggle="modal" href="#directPurchaseMedicineModal" id="selectMedicine">
+                                                            <i class="fa  fa-check-square-o"></i>
+                                                            <b>Select Medicine</b>
+                                                        </a>
+                                                    </div>
+                                                    <label class="col-md-5"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+
+
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Medicine Item List</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive" style="overflow-y:scroll;height:350px;display:block;">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="display:none;">
+                                                                    Medicine ID
+                                                                </th>
+                                                                <th>
+                                                                    Medicine Name
+                                                                </th>
+                                                                <th>
+                                                                    Company
+                                                                </th>
+                                                                <th>
+                                                                    Medicine Type
+                                                                </th>
+                                                                <th>
+                                                                    Purchase Price
+                                                                </th>
+                                                                <th>
+                                                                    Purchase Qty
+                                                                </th>
+                                                                <th>
+                                                                    Total
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBodyForPurchaseMedicine"></tbody>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-md-6 control-label"> <b>Total Quantity</b></label>
+                                                            <div class="col-md-6">
+                                                                <div class="input-icon">
+                                                                    <i>&#2547;</i>
+                                                                    <input type="text" class="form-control input-circle" id="TotalQty" readonly="readonly">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-md-6 control-label"><b>Total Purchase Vaule</b></label>
+                                                            <div class="col-md-6">
+                                                                <div class="input-icon">
+                                                                    <i>&#2547;</i>
+                                                                    <input type="text" class="form-control input-circle" id="TotalPurchaseValue" readonly="readonly">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+                                </div>
+                                <!-- END GENERAL PORTLET-->
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("PurchaseMedicine", "PurchaseMedicine")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="directPurchaseMedicineModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Medicine View</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table" id="ModalTableForData">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Medicine Name
+                                        </th>
+                                        <th>
+                                            Company
+                                        </th>
+                                        <th>
+                                            Type
+                                        </th>
+                                        <th>
+                                            Purchase Price
+                                        </th>
+                                        <th>
+                                            Purchased Qty
+                                        </th>
+                                        <th>
+                                            Stock Qty
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ModalCheckBoxItemList"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+
+        var table = $("#ModalTableForData").dataTable({
+            "processing": true,
+            "serverSide": true,
+            "searchHighlight": true,
+            "ajax": {
+                url: '@Url.Action("GetAllMedicineForPurchase", "PurchaseMedicine")',
+                type: 'POST'
+                },
+                "columns": [
+                    {
+                        "data": "MedicineId",
+                        "orderable": false,
+                        render: function (data, type, object) {
+                            return "<input type='checkbox' class='checker' id='checkbox' value='" + object.MedicineId + "' />" +
+                                " <input type='hidden' class='medicineId' value='" + object.MedicineId + "' />";
+                        }
+                    },
+                    {
+                        "data": "MedicineName",
+                        render: function (data, type, object) {
+                        return "<p class='medicineName'>" + object.MedicineName +"</p>";
+                        }
+                    },
+                    {
+                        "data": "CompanyName",
+                        render: function (data, type, object) {
+                        return "<p class='companyName'>" + object.CompanyName + "</p>";
+                        }
+                    },
+                    {
+                        "data": "MedicineTypeName",
+                        render: function (data, type, object) {
+                        return "<p class='medicineTypeName'>" + object.MedicineTypeName + "</p>";
+                        }
+                    },
+                    {
+                        "data": "PurchasePrice",
+                        render: function (data, type, object) {
+                        return "<p class='purchasePrice'>" + object.PurchasePrice + "</p>";
+                        }
+                    },
+                    {
+                        "data": "TotalPurchaseQty",
+                        render: function (data, type, object) {
+                        return "<p class='totalPurchaseQty'>" + object.TotalPurchaseQty + "</p>";
+                        }
+                    },
+                    {
+                        "data": "StockQty",
+                        render: function (data, type, object) {
+                        return "<p class='stockQty'>" + object.StockQty + "</p>";
+                        }
+                    }
+
+                ]
+        });
+
+
+        $("#ModalTableForData").on('change', 'input[Id="checkbox"]', function () {
+            if ($(this).is(':checked')) {
+                var medicineId = $(this).parents('tr').find('.medicineId').val();
+                var medicineName = $(this).parents("td").siblings("td").find(".medicineName").text();
+                var companyName = $(this).parents("td").siblings("td").find(".companyName").text();
+                var medicineTypeName = $(this).parents("td").siblings("td").find(".medicineTypeName").text();
+                var purchasePrice = $(this).parents("td").siblings("td").find(".purchasePrice").text();
+                var totalPurchaseQty = $(this).parents("td").siblings("td").find(".totalPurchaseQty").text();
+                var stockQty = $(this).parents("td").siblings("td").find(".stockQty").text();
+
+                var value = "";
+
+                $.each($("#gridTableBodyForPurchaseMedicine tr"), function () {
+                    value = $(this).find('td:eq(0)').text();
+                });
+
+                if (medicineId === value) {
+                    toastr.warning("This Item is already Selected");
+                } else {
+
+                    $("#gridTableBodyForPurchaseMedicine").append('<tr>' +
+                        '<td style="display:none;">' +
+                        medicineId +
+                        '</td>' +
+                        '<td>' +
+                        medicineName +
+                        '</td>' +
+                        '<td>' +
+                        companyName +
+                        '</td>' +
+                        '<td>' +
+                        medicineTypeName +
+                        '</td>' +
+                        '<td>' +
+                        purchasePrice +
+                        '</td>' +
+                        '<td style="width: 15%">' +
+                        '<input type="text" class="form-control input-circle purchaseQty" id="purchaseQty" value="' +
+                        1 +
+                        '" placeholder="Purchase Qty">' +
+                        '</td>' +
+                        '<td style="width: 15%">' +
+                        '<input type="text" class="form-control input-circle totalValue" readonly="readonly" id="totalValue" value="' + purchasePrice +
+                        '" placeholder="Total Value">' +
+                        '</td>' +
+                        '</tr>'
+                    );
+                    totalChallanItemCount();
+                    toastr.success("This Item is Selected");
+                }
+            }
+            
+        });
+
+        $("#gridTableBodyForPurchaseMedicine").on('keyup', '.purchaseQty', function () {
+            var purchaseQty = $(this).val();
+            var purchasePrice = $(this).parents('tr').find('td:eq(4)').html();
+
+            var result = parseInt(purchaseQty) * parseInt(purchasePrice);
+
+            $(this).parents('tr').find('.totalValue').val(result);
+            totalChallanItemCount();
+        });
+
+        $("#save").click(function (e) {
+            gridSave();
+        });
+
+    });
+
+
+    function totalChallanItemCount() {
+        var totalQty = 0;
+        var totalVal = 0;
+        $("#gridTableBodyForPurchaseMedicine tr").each(function () {
+            debugger;
+            totalQty += parseInt($(this).find('.purchaseQty').val());
+            totalVal += parseInt($(this).find('.totalValue').val());
+        });
+        $("#TotalQty").val(totalQty);
+        $("#TotalPurchaseValue").val(totalVal);
+        return true;
+    }
+
+    function gridSave() {
+        var totalQty = parseInt($("#TotalQty").val());
+        var totalVal = parseInt($("#TotalPurchaseValue").val());
+        if (totalQty > 0 && totalVal > 0) {
+
+            var allPurchaseMedicineItem = [];
+            allPurchaseMedicineItem.length = 0;
+
+            $.each($("#gridTableBodyForPurchaseMedicine tr"),
+                function () {
+                    allPurchaseMedicineItem.push({
+                        MedicineId: $(this).find('td:eq(0)').html(),
+                        MedicineName: $(this).find('td:eq(1)').html(),
+                        PurchasePrice: $(this).find('td:eq(4)').html(),
+                        Quantity: $(this).find('.purchaseQty').val(),
+                        TotalAmount: $(this).find('.totalValue').val()
+                    });
+                });
+
+            var dataObject = {
+                'TotalItem': totalQty,
+                'TotalPurchaseAmount': totalVal,
+                'PurchaseMedicineItemList': allPurchaseMedicineItem
+            }
+
+            var dataList = JSON.stringify({ objPurchaseMedicineModel: dataObject });
+
+            if (allPurchaseMedicineItem.length) {
+
+                        $.ajax({
+                            type: 'POST',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: '@Url.Action("SaveAllPurchaseMedicineItem", "PurchaseMedicine")',
+                            data: dataList,
+                            beforeSend: function() {
+                                $('#preLoader').show();
+                            },
+                            success: function (data) {
+                                if (data.isRedirect) {
+                                    window.setTimeout(function () {
+                                        window.location = data.redirectUrl;
+                                    }, 1000);
+                                    toastr.info("Save Successfully.");
+                                    $('#preLoader').hide();
+                                }
+                            }
+                        });
+                    } else {
+                        toastr.error("No Data found !! Select Medicine..");
+                    }
+
+        } else {
+            toastr.warning("Please select medicine!!");
+        }
+    }
+
+</script>

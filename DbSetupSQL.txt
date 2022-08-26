@@ -1,0 +1,27 @@
+ 
+Enter user name : / as sysdba
+ 
+
+create tablespace EPHARMA_db datafile 'EPHARMA_db.dbf' size 10M autoextend on;
+
+create user EPHARMA identified by EPHARMA007 default tablespace EPHARMA_db temporary tablespace temp;
+
+GRANT connect,resource,dba to EPHARMA;
+
+<<<<<<<<<then restart Sqlplus>>>>>>>>>>>
+
+Enter user-name: EPHARMA/EPHARMA007
+
+directory: dir_epharma
+
+*** drop user *** 
+drop user user_Name cascade; 
+commit;
+
+*** importing database ***
+$imp EPHARMA/EPHARMA@orcl file = E:\db\EPHARMA.dmp fromuser = EPHARMA touser = EPHARMA;
+
+
+************************************************
+
+alter session set "_oracle_script"=true; (for 19C to create user)

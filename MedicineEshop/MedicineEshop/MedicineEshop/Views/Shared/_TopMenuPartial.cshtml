@@ -1,0 +1,137 @@
+﻿@model MedicineEshop.ViewModel.AuthModel
+
+<div class="page-header navbar navbar-fixed-top page-sidebar-fixed">
+<!-- BEGIN HEADER INNER -->
+<div class="page-header-inner">
+<!-- BEGIN LOGO -->
+<div class="page-logo">
+    <a href="@Url.Action("About", "Home")">
+        <img src="~/Content/img/pharmalogo.png" alt="MedicineEshop" class="img-responsive logo-default" style="height: 40px; width: 120px; margin-top:10px;" /><p class="text-center"><b>Medicine E Shop</b></p>
+    </a>
+    <div class="menu-toggler sidebar-toggler">
+        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+    </div>
+</div>
+<!-- END LOGO -->
+<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+</a>
+<!-- END RESPONSIVE MENU TOGGLER -->
+<!-- BEGIN PAGE TOP -->
+<div class="page-top">
+    <!-- BEGIN HEADER SEARCH BOX -->
+    <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
+    <form class="search-form" action="#" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control input-sm" placeholder="Search..." name="query">
+            <span class="input-group-btn">
+                <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+            </span>
+        </div>
+    </form>
+    <!-- END HEADER SEARCH BOX -->
+    <!-- BEGIN TOP NAVIGATION MENU -->
+    <div class="top-menu">
+        <ul class="nav navbar-nav pull-right">
+            <li class="separator hide">
+            </li>
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+
+            <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <i class="icon-envelope-open" style="color:darkgreen"></i>
+                    <span class="badge badge-danger">
+                        0
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="external">
+                        <h3><span class="bold">0</span> unread messages</h3>
+                        <a href="#">View all</a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <!-- END TODO DROPDOWN -->
+
+            <li class="dropdown dropdown-user dropdown-dark">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <span class="username username-hide-on-mobile">
+                        @*@Model.EmployeeName*@
+                    </span>
+                    <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
+                    <img alt="" class="img-circle" src="/Content/img/avatar.png" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-default">
+                    <li>
+                        <a data-toggle="modal" href="#myProfileModal">
+                            <i class="icon-user"></i> My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="icon-calendar"></i> My Calendar
+                        </a>
+                    </li>
+
+                    <li class="divider">
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="icon-lock"></i> Lock Screen
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("LogOut", "Auth")">
+                            <i class="icon-key"></i> Log Out
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+        </ul>
+    </div>
+    <!-- END TOP NAVIGATION MENU -->
+</div>
+<!-- END PAGE TOP -->
+</div>
+
+<!-- END HEADER INNER -->
+</div>
+
+<div class="modal fade bs-modal-sm" id="myProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> MY PROFILE</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-md-12 control-label"><strong>ID:</strong> @Model.EmployeeId</label>
+                                    <label class="col-md-12 control-label"><strong>NAME:</strong> @Model.EmployeeName</label>
+                                    <label class="col-md-12 control-label"><strong>Email:</strong> @Model.EmployeeEmail</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

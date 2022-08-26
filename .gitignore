@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/MedicineEshop/MedicineEshop/.vs
+/MedicineEshop/MedicineEshop/MedicineEshop/bin
+/MedicineEshop/MedicineEshop/MedicineEshop/obj
