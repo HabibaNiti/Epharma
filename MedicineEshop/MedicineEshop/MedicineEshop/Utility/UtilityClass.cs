@@ -16,6 +16,7 @@ namespace MedicineEshop.Utility
 {
     public class UtilityClass
     {
+        public static string ImageName;
         //For dropdown list
         public static SelectList GetSelectListByDataTable(DataTable objDataTable, string pValueField, string pTextField)
         {

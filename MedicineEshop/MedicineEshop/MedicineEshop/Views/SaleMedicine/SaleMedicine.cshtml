@@ -1,6 +1,7 @@
-﻿
+﻿@using MedicineEshop.ViewModel
+@model MedicineEshop.ViewModel.SaleMedicineModel
 @{
-    ViewBag.Title = "AddMedicineStock";
+    ViewBag.Title = "SaleMedicine";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +10,7 @@
         <div class="portlet box green-haze">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Add Medicine Stock
+                    <i class="fa fa-gift"></i>Order Medicine
                 </div>
 
                 <div class="tools">
@@ -19,7 +20,7 @@
             </div>
             <div class="portlet-body">
                 <div class="form-horizontal">
-
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="portlet light bordered">
@@ -36,12 +37,51 @@
                                             <div class="row">
                                                 <div class="form-group">
                                                     <div class="col-md-7">
-                                                        <a class="btn btn-warning selectMedicine" data-toggle="modal" href="#directPurchaseMedicineModal" id="selectMedicine">
+                                                        <a class="btn btn-warning selectMedicine" data-toggle="modal" href="#directSaleMedicineModal" id="selectMedicine">
                                                             <i class="fa  fa-check-square-o"></i>
                                                             <b>Select Medicine</b>
                                                         </a>
                                                     </div>
                                                     <label class="col-md-5"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label"><b>Payment Type</b> <span style="color: red">*</span></label>
+                                                <div class="col-md-7">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.PaymentTypeID, new SelectList(ViewBag.PaymentTypeList, "Value", "Text"), new { @class = "form-control input-circle", @id = "PaymentTypeID", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.PaymentTypeID)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"><b>Payment Referenct Number</b></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.PaymentRefNumber, new { @class = "form-control input-circle", autocomplete = "off", @placeholder = "Online Payment Ref. number", @id = "PaymentRefNumber", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.PaymentRefNumber)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Hidden("ImageString")
+                                                @Html.Label("Prescription Image", new { @class = "col-lg-4 control-label" })
+                                                <div class="col-lg-7">
+                                                    @Html.TextBox("ImageFile", "", new { @class = "form-control", @placeholder = "Please provide prescription image", @type = "file", @accept = "image/*" })
+                                                    @*@Html.ValidationMessage("ImageFile", "", new { @class = "text-danger", @id = "ImageFileValMsg" })*@
+                                                </div>
+                                                <div class="col-lg-1">
+                                                    <span class="required">*</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,24 +118,27 @@
                                                                     Medicine Type
                                                                 </th>
                                                                 <th>
-                                                                    Purchase Price
+                                                                    Sale Price
                                                                 </th>
                                                                 <th>
-                                                                    Purchase Qty
+                                                                    Sale Qty
                                                                 </th>
                                                                 <th>
                                                                     Total
                                                                 </th>
+                                                                <th>
+                                                                    Current Stock
+                                                                </th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="gridTableBodyForPurchaseMedicine"></tbody>
+                                                        <tbody id="gridTableBodyForSaleMedicine"></tbody>
                                                     </table>
                                                 </div>
                                                 <hr />
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="col-md-6 control-label"> <b>Total Quantity</b></label>
+                                                            <label class="col-md-6 control-label"> <b>Total Order Quantity</b></label>
                                                             <div class="col-md-6">
                                                                 <div class="input-icon">
                                                                     <i>&#2547;</i>
@@ -106,11 +149,11 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="col-md-6 control-label"><b>Total Purchase Vaule</b></label>
+                                                            <label class="col-md-6 control-label"><b>Total Order Vaule</b></label>
                                                             <div class="col-md-6">
                                                                 <div class="input-icon">
                                                                     <i>&#2547;</i>
-                                                                    <input type="text" class="form-control input-circle" id="TotalPurchaseValue" readonly="readonly">
+                                                                    <input type="text" class="form-control input-circle" id="TotalSaleValue" readonly="readonly">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -128,7 +171,7 @@
                                     </div>
                                     <div class="col-md-4 text-right">
                                         <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
-                                        <a class="btn btn-danger" id="clear" href="@Url.Action("PurchaseMedicine", "PurchaseMedicine")"><i class="fa fa-cut"></i> Clear</a>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("SaleMedicine", "SaleMedicine")"><i class="fa fa-cut"></i> Clear</a>
                                     </div>
                                     <div class="col-md-4"></div>
                                 </div>
@@ -141,7 +184,7 @@
     </div>
 </div>
 
-<div class="modal fade bs-modal-lg" id="directPurchaseMedicineModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bs-modal-lg" id="directSaleMedicineModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
@@ -170,10 +213,7 @@
                                             Type
                                         </th>
                                         <th>
-                                            Purchase Price
-                                        </th>
-                                        <th>
-                                            Purchased Qty
+                                            Sale Price
                                         </th>
                                         <th>
                                             Stock Qty
@@ -205,7 +245,7 @@
             "serverSide": true,
             "searchHighlight": true,
             "ajax": {
-                url: '@Url.Action("GetAllMedicineForPurchase", "PurchaseMedicine")',
+                url: '@Url.Action("GetAllMedicineForSale", "SaleMedicine")',
                 type: 'POST'
                 },
                 "columns": [
@@ -236,15 +276,9 @@
                         }
                     },
                     {
-                        "data": "PurchasePrice",
+                        "data": "SalePrice",
                         render: function (data, type, object) {
-                        return "<p class='purchasePrice'>" + object.PurchasePrice + "</p>";
-                        }
-                    },
-                    {
-                        "data": "TotalPurchaseQty",
-                        render: function (data, type, object) {
-                        return "<p class='totalPurchaseQty'>" + object.TotalPurchaseQty + "</p>";
+                        return "<p class='SalePrice'>" + object.SalePrice + "</p>";
                         }
                     },
                     {
@@ -264,62 +298,80 @@
                 var medicineName = $(this).parents("td").siblings("td").find(".medicineName").text();
                 var companyName = $(this).parents("td").siblings("td").find(".companyName").text();
                 var medicineTypeName = $(this).parents("td").siblings("td").find(".medicineTypeName").text();
-                var purchasePrice = $(this).parents("td").siblings("td").find(".purchasePrice").text();
-                var totalPurchaseQty = $(this).parents("td").siblings("td").find(".totalPurchaseQty").text();
+                var SalePrice = $(this).parents("td").siblings("td").find(".SalePrice").text();
                 var stockQty = $(this).parents("td").siblings("td").find(".stockQty").text();
 
-                var value = "";
+                if (parseInt(stockQty) > 0) {
+                    var value = "";
 
-                $.each($("#gridTableBodyForPurchaseMedicine tr"), function () {
-                    value = $(this).find('td:eq(0)').text();
-                });
+                    $.each($("#gridTableBodyForSaleMedicine tr"), function () {
+                        value = $(this).find('td:eq(0)').text();
+                    });
 
-                if (medicineId === value) {
-                    toastr.warning("This Item is already Selected");
+                    if (medicineId === value) {
+                        toastr.warning("This Item is already Selected");
+                    } else {
+
+                        $("#gridTableBodyForSaleMedicine").append('<tr>' +
+                            '<td style="display:none;">' +
+                            medicineId +
+                            '</td>' +
+                            '<td>' +
+                            medicineName +
+                            '</td>' +
+                            '<td>' +
+                            companyName +
+                            '</td>' +
+                            '<td>' +
+                            medicineTypeName +
+                            '</td>' +
+                            '<td>' +
+                            SalePrice +
+                            '</td>' +
+                            '<td style="width: 15%">' +
+                            '<input type="text" class="form-control input-circle SaleQty" id="SaleQty" value="' +
+                            1 +
+                            '" placeholder="Sale Qty">' +
+                            '</td>' +
+                            '<td style="width: 15%">' +
+                            '<input type="text" class="form-control input-circle totalValue" readonly="readonly" id="totalValue" value="' + SalePrice +
+                            '" placeholder="Total Value">' +
+                            '</td>' +
+                            '<td style="width: 15%">' +
+                            '<input type="text" class="form-control input-circle stockQty" readonly="readonly" id="stockQty" value="' + stockQty +
+                            '" placeholder="Total Value">' +
+                            '</td>' +
+                            '</tr>'
+                        );
+                        totalChallanItemCount();
+                        toastr.success("This Item is Selected");
+                    }
                 } else {
-
-                    $("#gridTableBodyForPurchaseMedicine").append('<tr>' +
-                        '<td style="display:none;">' +
-                        medicineId +
-                        '</td>' +
-                        '<td>' +
-                        medicineName +
-                        '</td>' +
-                        '<td>' +
-                        companyName +
-                        '</td>' +
-                        '<td>' +
-                        medicineTypeName +
-                        '</td>' +
-                        '<td>' +
-                        purchasePrice +
-                        '</td>' +
-                        '<td style="width: 15%">' +
-                        '<input type="text" class="form-control input-circle purchaseQty" id="purchaseQty" value="' +
-                        1 +
-                        '" placeholder="Purchase Qty">' +
-                        '</td>' +
-                        '<td style="width: 15%">' +
-                        '<input type="text" class="form-control input-circle totalValue" readonly="readonly" id="totalValue" value="' + purchasePrice +
-                        '" placeholder="Total Value">' +
-                        '</td>' +
-                        '</tr>'
-                    );
-                    totalChallanItemCount();
-                    toastr.success("This Item is Selected");
+                    toastr.warning("Stock is not available for this medicie!");
                 }
+
+
             }
-            
+
         });
 
-        $("#gridTableBodyForPurchaseMedicine").on('keyup', '.purchaseQty', function () {
-            var purchaseQty = $(this).val();
-            var purchasePrice = $(this).parents('tr').find('td:eq(4)').html();
+        $("#gridTableBodyForSaleMedicine").on('keyup', '.SaleQty', function () {
+            var SaleQty = $(this).val();
+            var SalePrice = $(this).parents('tr').find('td:eq(4)').html();
+            var StockQty = $(this).parents('tr').find('.stockQty').val();
 
-            var result = parseInt(purchaseQty) * parseInt(purchasePrice);
+            if (parseInt(StockQty) < parseInt(SaleQty)) {
+                $(this).val(parseInt(StockQty));
+                var result = parseInt(StockQty) * parseInt(SalePrice);
+                $(this).parents('tr').find('.totalValue').val(result);
+                totalChallanItemCount();
+                toastr.warning("You can't select more than stock quantity!");
+            } else {
+                var result = parseInt(SaleQty) * parseInt(SalePrice);
 
-            $(this).parents('tr').find('.totalValue').val(result);
-            totalChallanItemCount();
+                $(this).parents('tr').find('.totalValue').val(result);
+                totalChallanItemCount();
+            }
         });
 
         $("#save").click(function (e) {
@@ -332,71 +384,113 @@
     function totalChallanItemCount() {
         var totalQty = 0;
         var totalVal = 0;
-        $("#gridTableBodyForPurchaseMedicine tr").each(function () {
-            debugger;
-            totalQty += parseInt($(this).find('.purchaseQty').val());
+        $("#gridTableBodyForSaleMedicine tr").each(function () {
+            totalQty += parseInt($(this).find('.SaleQty').val());
             totalVal += parseInt($(this).find('.totalValue').val());
         });
         $("#TotalQty").val(totalQty);
-        $("#TotalPurchaseValue").val(totalVal);
+        $("#TotalSaleValue").val(totalVal);
         return true;
     }
 
     function gridSave() {
         var totalQty = parseInt($("#TotalQty").val());
-        var totalVal = parseInt($("#TotalPurchaseValue").val());
-        if (totalQty > 0 && totalVal > 0) {
+        var totalVal = parseInt($("#TotalSaleValue").val());
+        var paymentId = parseInt($("#PaymentTypeID").val());
+        var paymentRefNum = $("#PaymentRefNumber").val();
 
-            var allPurchaseMedicineItem = [];
-            allPurchaseMedicineItem.length = 0;
+        var prescription = $('#ImageFile')[0].files[0];
+        
 
-            $.each($("#gridTableBodyForPurchaseMedicine tr"),
-                function () {
-                    allPurchaseMedicineItem.push({
-                        MedicineId: $(this).find('td:eq(0)').html(),
-                        MedicineName: $(this).find('td:eq(1)').html(),
-                        PurchasePrice: $(this).find('td:eq(4)').html(),
-                        Quantity: $(this).find('.purchaseQty').val(),
-                        TotalAmount: $(this).find('.totalValue').val()
-                    });
-                });
-
-            var dataObject = {
-                'TotalItem': totalQty,
-                'TotalPurchaseAmount': totalVal,
-                'PurchaseMedicineItemList': allPurchaseMedicineItem
-            }
-
-            var dataList = JSON.stringify({ objPurchaseMedicineModel: dataObject });
-
-            if (allPurchaseMedicineItem.length) {
-
-                        $.ajax({
-                            type: 'POST',
-                            contentType: 'application/json',
-                            dataType: 'json',
-                            url: '@Url.Action("SaveAllPurchaseMedicineItem", "PurchaseMedicine")',
-                            data: dataList,
-                            beforeSend: function() {
-                                $('#preLoader').show();
-                            },
-                            success: function (data) {
-                                if (data.isRedirect) {
-                                    window.setTimeout(function () {
-                                        window.location = data.redirectUrl;
-                                    }, 1000);
-                                    toastr.info("Save Successfully.");
-                                    $('#preLoader').hide();
-                                }
-                            }
-                        });
-                    } else {
-                        toastr.error("No Data found !! Select Medicine..");
-                    }
-
+        if (typeof prescription == 'undefined') {
+            toastr.warning("Please enter prescription image!!");
         } else {
-            toastr.warning("Please select medicine!!");
+            var imageName = prescription.name;
+            var imageFile = new FormData();
+            imageFile.append(imageName, prescription);
+
+            if (totalQty > 0 && totalVal > 0) {
+
+                if (paymentId > 0) {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "/SaleMedicine/GetHttpPostedFileBase",
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        async: false,
+                        data: imageFile,
+                        success: function () {
+
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                var allSaleMedicineItem = [];
+                allSaleMedicineItem.length = 0;
+
+                $.each($("#gridTableBodyForSaleMedicine tr"),
+                    function () {
+                        allSaleMedicineItem.push({
+                            MedicineId: $(this).find('td:eq(0)').html(),
+                            MedicineName: $(this).find('td:eq(1)').html(),
+                            SalePrice: $(this).find('td:eq(4)').html(),
+                            Quantity: $(this).find('.SaleQty').val(),
+                            TotalAmount: $(this).find('.totalValue').val()
+                        });
+                    });
+
+                var dataObject = {
+                    'TotalItem': totalQty,
+                    'TotalSaleAmount': totalVal,
+                    'PaymentTypeID': paymentId,
+                    'PaymentRefNumber': paymentRefNum,
+                    'ImageString': imageName,
+                    'SaleMedicineItemList': allSaleMedicineItem
+                }
+
+                var dataList = JSON.stringify({ objSaleMedicineModel: dataObject });
+
+                if (allSaleMedicineItem.length) {
+
+                            $.ajax({
+                                type: 'POST',
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                url: '@Url.Action("SaveAllSoldMedicineItem", "SaleMedicine")',
+                                data: dataList,
+                                beforeSend: function() {
+                                    $('#preLoader').show();
+                                },
+                                success: function (data) {
+                                    if (data.isRedirect) {
+                                        window.setTimeout(function () {
+                                            window.location = data.redirectUrl;
+                                        }, 1000);
+                                        toastr.info("Save Successfully.");
+                                        $('#preLoader').hide();
+                                    }
+                                }
+                            });
+                        } else {
+                            toastr.error("No Data found !! Select Medicine..");
+                        }
+
+                } else {
+                    toastr.warning("Please select payment type!");
+                }
+            
+            } else {
+                toastr.warning("Please select medicine!!");
+            }
         }
+
+        
     }
 
 </script>
+
+

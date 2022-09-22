@@ -219,6 +219,7 @@ namespace MedicineEshop.DAL
                                     CompanyName = objDataReader["COMPANYNAME"].ToString(),
                                     MedicineTypeName = objDataReader["MEDICINETYPENAME"].ToString(),
                                     PurchasePrice = Convert.ToDouble(objDataReader["PURCHASEPRICE"].ToString()),
+                                    SalePrice = Convert.ToDouble(objDataReader["SALEPRICE"].ToString()),
                                     TotalPurchaseQty = Convert.ToInt32(objDataReader["TOTALPURCHASEQTY"].ToString()),
                                     StockQty = Convert.ToInt32(objDataReader["STOCKQTY"].ToString())
                                 };

@@ -11,6 +11,7 @@ namespace MedicineEshop.Controllers
     public class PurchaseMedicineController : Controller
     {
         private readonly PurchaseMedicineDal _objPurchaseMedicineDal = new PurchaseMedicineDal();
+        private readonly SaleMedicineDal _objSaleMedicineDal = new SaleMedicineDal();
 
         #region "Common"       
         private string _strEmployeeId = "";
@@ -33,7 +34,6 @@ namespace MedicineEshop.Controllers
 
         #endregion
 
-        // GET: PurchaseMedicine
         [RoleFilter]
         public async Task<ActionResult> PurchaseMedicineList()
         {
@@ -109,5 +109,57 @@ namespace MedicineEshop.Controllers
             };
             return Json(messageAndReload, JsonRequestBehavior.AllowGet);
         }
+
+        #region CustomerOredrList
+        [RoleFilter]
+        public async Task<ActionResult> CustomerOrderdList()
+        {
+            LoadSession();
+            var customerId = "";
+            ViewBag.OrderedList = await _objSaleMedicineDal.SaleMedicineList(customerId);
+            return View();
+        }
+
+        public async Task<JsonResult> GetSaleMedicineList(int saleInfoId)
+        {
+            var objSaleMedicineModel = await _objSaleMedicineDal.GetSaleMedicineList(saleInfoId);
+
+            return Json(objSaleMedicineModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> GetOrderDataById(string orderId)
+        {
+            var orderData = await _objSaleMedicineDal.GetOrderDataById(orderId);
+            var orderInfo = new { orderdata = orderData };
+
+            return Json(orderInfo, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> UpdateSaleInfo(SaleMedicineModel objSaleMedicineModel)
+        {
+            LoadSession();
+            string returnMessage = "";
+
+            objSaleMedicineModel.DeliveryBy = _strEmployeeId;
+
+            try
+            {
+                returnMessage = await _objSaleMedicineDal.UpdateSaleInfo(objSaleMedicineModel);   
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+
+            var messageAndReload = new
+            {
+                m = returnMessage,
+                isRedirect = true,
+                redirectUrl = Url.Action("CustomerOrderdList")
+            };
+            return Json(messageAndReload, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
     }
 }

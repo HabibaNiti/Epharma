@@ -1,6 +1,6 @@
 ﻿@using MedicineEshop.ViewModel
 @{
-    ViewBag.Title = "PurchaseMedicineList";
+    ViewBag.Title = "MedicineStockChallans";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var medicinePurchaseList = ViewBag.PurchaseMedicineList as List<PurchaseMedicineModel>;
@@ -8,10 +8,10 @@
 
 <div class="page-head">
     <div class="page-title">
-        <h1>Purchase Medicine</h1>
+        <h1>Stock Medicine</h1>
     </div>
     <div class="page-toolbar">
-        <a href="@Url.Action("PurchaseMedicine", "PurchaseMedicine")" class="btn btn-circle btn-success"><i class="fa fa-plus-circle"></i> Medicine Purchase</a>
+        <a href="@Url.Action("PurchaseMedicine", "PurchaseMedicine")" class="btn btn-circle btn-success"><i class="fa fa-plus-circle"></i> Add Medicine Stock Challan</a>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
         <div class="portlet box green-haze">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>Purchased Medicine List
+                    <i class="fa fa-globe"></i>Stock Adding Challan List
                 </div>
                 <div class="tools">
                 </div>
@@ -30,11 +30,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th> Purchase Number </th>
-                            <th> Purchase Date </th>
+                            <th> Challan Number </th>
+                            <th> Challan Date </th>
                             <th> Total Medicine</th>
-                            <th> Total Purchase Amount</th>
-                            <th> Purchase By</th>
+                            <th> Total Challan Amount</th>
+                            <th> Challan Created By</th>
                             <th> Action</th>
                         </tr>
                     </thead>
@@ -74,7 +74,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Purchase Medicine</h4>
+                <h4 class="modal-title">Challan Items</h4>
             </div>
             <div class="modal-body">
 
@@ -82,7 +82,7 @@
                     <div class="portlet-title">
                         <div class="caption font-green-sharp">
                             <i class="icon-speech font-green-sharp"></i>
-                            <span class="caption-subject bold uppercase">Purchased Medicine Items</span>
+                            <span class="caption-subject bold uppercase">Medicine Items</span>
                         </div>
                     </div>
                     <div class="portlet-body scroller" style="height: 350px">

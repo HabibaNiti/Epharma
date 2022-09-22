@@ -228,6 +228,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuSetUpController.cs" />
     <Compile Include="Controllers\PurchaseMedicineController.cs" />
+    <Compile Include="Controllers\SaleMedicineController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\SubMenuSetUpController.cs" />
     <Compile Include="Controllers\UserActivityController.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="DAL\HomeDal.cs" />
     <Compile Include="DAL\MenuAndSubMenuDal.cs" />
     <Compile Include="DAL\PurchaseMedicineDal.cs" />
+    <Compile Include="DAL\SaleMedicineDal.cs" />
     <Compile Include="DAL\SetupDAL.cs" />
     <Compile Include="DAL\UserActivityDal.cs" />
     <Compile Include="DAL\UserSubActionPermissionDal.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="ViewModel\LogActionModel.cs" />
     <Compile Include="ViewModel\MenuSetUpModel.cs" />
     <Compile Include="ViewModel\PurchaseMedicineModel.cs" />
+    <Compile Include="ViewModel\SaleMedicineModel.cs" />
     <Compile Include="ViewModel\SetupModel.cs" />
     <Compile Include="ViewModel\SubMenuSetUpModel.cs" />
     <Compile Include="ViewModel\UserActivityModel.cs" />
@@ -1017,10 +1020,13 @@
     <Content Include="Views\Setup\MedicineSetup.cshtml" />
     <Content Include="Views\PurchaseMedicine\PurchaseMedicineList.cshtml" />
     <Content Include="Views\PurchaseMedicine\PurchaseMedicine.cshtml" />
+    <Content Include="Views\SaleMedicine\SaleMedicineList.cshtml" />
+    <Content Include="Views\PurchaseMedicine\CustomerOrderdList.cshtml" />
+    <Content Include="Views\SaleMedicine\SaleMedicine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Files\" />
+    <Folder Include="Files\Prescriptions\" />
     <Folder Include="Reports\" />
   </ItemGroup>
   <ItemGroup>

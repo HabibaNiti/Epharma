@@ -1,0 +1,277 @@
+﻿@using MedicineEshop.ViewModel
+@{
+    ViewBag.Title = "MedicineOrderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var medicineSaleList = ViewBag.SaleMedicineList as List<SaleMedicineModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Ordered Medicine</h1>
+    </div>
+    <div class="page-toolbar">
+        <a href="@Url.Action("SaleMedicine", "SaleMedicine")" class="btn btn-circle btn-success"><i class="fa fa-plus-circle"></i> Order Medicine</a>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Ordered Medicine List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-bordered" id="SaleMedicineList">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> Order Number </th>
+                            <th> Order Date </th>
+                            <th> Total Medicine</th>
+                            <th> Total Order Amount</th>
+                            <th> Payment Type</th>
+                            <th> Payment Ref. No</th>
+                            <th> Payment Verification</th>
+                            <th> Prescription</th>
+                            <th> Prescription Verification</th>
+                            <th> Delivery Status</th>
+                            <th> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (medicineSaleList != null && medicineSaleList.Count != 0)
+                        {
+                            int counter = 1;
+                            foreach (var data in medicineSaleList)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@data.InvoiceNumber</td>
+                                    <td>@data.InvoiceDate</td>
+                                    <td>@data.TotalItem</td>
+                                    <td>@data.TotalSaleAmount</td>
+                                    <td>@data.PaymentType</td>
+                                    <td>@data.PaymentRefNumber</td>
+                                    @if (data.PaymentVerifyYN == "Y")
+                                    {
+                                        <td>
+                                            <i class="fa fa-check-circle" style="color: green;"> Verified</i>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td><i class="fa fa-times-circle" style="color: red;"></i> Pending</td>
+                                    }
+                                    <td>
+                                        <a class="btn modalImage" data-toggle="modal" href="#ImageModal" data-id="@data.ImageString">
+                                            <img style="width: 50px;height: 50px;border: 1px solid #ddd;padding: 3px;" src="@data.ImageString" />
+                                        </a>
+                                    </td>
+                                    @if (data.PrescriptionVerifyYN == "Y")
+                                    {
+                                        <td>
+                                            <i class="fa fa-check-circle" style="color: green;"> Verified</i>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td><i class="fa fa-times-circle" style="color: red;"></i> Pending</td>
+                                    }
+                                    @if (data.DeliveryYN == "Y")
+                                    {
+                                        <td>
+                                            <i class="fa fa-check-circle" style="color: green;"> Delivered</i>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td><i class="fa fa-times-circle" style="color: red;"></i> Pending</td>
+                                    }
+                                    <td class="text-center">
+                                        <a class="btn btn-primary SaleProductItem" data-toggle="modal" href="#SaleItemModal" data-id="@data.SaleInfoId">
+                                            <i class="fa fa-eye"></i>
+                                            View Item
+                                        </a>
+                                    </td>
+                                </tr>
+                                counter = counter + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.modal for showing challan items -->
+<div class="modal fade bs-modal-lg" id="SaleItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Ordered Items</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase">Medicine Items</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 350px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Medicine Name
+                                        </th>
+                                        <th>
+                                            Company Name
+                                        </th>
+                                        <th>
+                                            Medicine Type
+                                        </th>
+                                        <th>
+                                            Sale Price
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                        <th>
+                                            Total Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ModalSaleItemListTableBody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-8">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal for Image-->
+<div class="modal fade bs-modal-lg" id="ImageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Prescription</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Prescription Image</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="row">
+                            <img id="status" width="100%" alt="prescription" src="" />
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+
+        var table = $("#SaleMedicineList").dataTable();
+
+        $(document).on('click', '.SaleProductItem', function () {
+            var SaleInfoId = $(this).data('id');
+            SaleMedicineItem(SaleInfoId);
+        });
+
+        $(".modalImage").click(function () {
+            var imageSrc = $(this).data('id');
+            $('#status').attr("src", imageSrc);
+        });
+
+    });
+
+    function SaleMedicineItem(SaleInfoId) {
+
+        var dataId = JSON.stringify({ saleInfoId: SaleInfoId });
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '@Url.Action("GetSaleMedicineList", "SaleMedicine")',
+            data: dataId,
+            success: function (data) {
+                var tableQuantity = data.length;
+                $("#ModalSaleItemListTableBody").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#ModalSaleItemListTableBody").append('<tr>' +
+                        '<td>' +
+                        parseInt(i+1) +
+                        '</td>' +
+                        '<td>' +
+                        data[i].MedicineName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].CompanyName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].MedicineTypeName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].SalePrice +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Quantity +
+                        '</td>' +
+                        '<td>' +
+                        data[i].TotalAmount +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }
+            }
+        });
+    }
+</script>
