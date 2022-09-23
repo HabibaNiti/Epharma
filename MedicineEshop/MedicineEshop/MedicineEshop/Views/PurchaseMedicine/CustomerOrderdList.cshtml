@@ -80,6 +80,12 @@
                                             <i class="fa fa-check-circle" style="color: green;"> Verified</i>
                                         </td>
                                     }
+                                    else if(data.PrescriptionVerifyYN == "R")
+                                    {
+                                        <td>
+                                            <i class="fa fa-times-circle" style="color: red;"> Failed (Rejected)</i>
+                                        </td>
+                                    }
                                     else
                                     {
                                         <td><i class="fa fa-times-circle" style="color: red;"></i> Pending</td>
@@ -234,6 +240,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-md-4 control-label">Reject Prescription</label>
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <input type="checkbox" name="perscriptionReject" class="form-control input-circle" id="perscriptionReject">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-md-4 control-label">Verify Payment</label>
                                     <div class="col-md-8">
                                         <div class="input-icon">
@@ -336,6 +350,9 @@
                     if (result.orderdata[0].PrescriptionVerifyYN === "Y") {
                         $("#perscriptionVerify").parent("span").attr('class', 'checked');
                     }
+                    if (result.orderdata[0].PrescriptionVerifyYN === "R") {
+                        $("#perscriptionReject").parent("span").attr('class', 'checked');
+                    }
                     if (result.orderdata[0].DeliveryYN === "Y") {
                         $("#deliveryStatus").parent("span").attr('class', 'checked');
                     }
@@ -400,7 +417,7 @@
     function orderDataUpdate() {
         if ($("#orderId").val() !== "") {
             var orderId = $("#orderId").val();
-
+            debugger;
             var paymentSatus = $("#paymentVerify").parent("span").hasClass("checked");
             var paymentVerifyYn = "";
             if (paymentSatus) {
@@ -415,6 +432,16 @@
                 prescriptionVerifyYn = "Y";
             } else {
                 prescriptionVerifyYn = "N";
+            }
+
+            var prescriptionRejectSatus = $("#perscriptionReject").parent("span").hasClass("checked");
+            var prescriptionRejectYn = "";
+            if (prescriptionRejectSatus) {
+                prescriptionRejectYn = "R";
+            }
+
+            if (prescriptionRejectYn === "R") {
+                prescriptionVerifyYn = "R";
             }
 
             var deliverySatus = $("#deliveryStatus").parent("span").hasClass("checked");
